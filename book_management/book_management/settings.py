@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'manage_users',
     'manage_books',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +83,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.SessionAuthentication',
+#         # other authentication classes...
+#     ],
+    
+# }
 
 
 # Password validation

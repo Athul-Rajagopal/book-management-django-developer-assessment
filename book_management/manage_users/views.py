@@ -2,10 +2,11 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate, login, logout
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UserSerializer
+from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -29,11 +30,16 @@ class RegisterUser(APIView):
         
         # Create user
         user = User.objects.create_user(username=username, email=email, password=password)
+        
+        # Log in the user
+        login(request, user)
         return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
     
 
 # User login   
 class UserLogin(APIView):
+    authentication_classes = [BasicAuthentication]
+    
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -41,14 +47,16 @@ class UserLogin(APIView):
         # Authenticate user
         user = authenticate(username=username, password=password)
         if user:
-            # Create or retrieve token
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            # Log in the user
+            login(request, user)
+            return Response({'message': 'login successfull'}, status=status.HTTP_200_OK)
         return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
     
-    
+
+  
 # User profile management
 class UserProfile(APIView):
+    authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -63,3 +71,14 @@ class UserProfile(APIView):
             serializer.save()
             return Response({'message': 'Profile updated successfully'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# Logout view
+class UserLogout(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        # Log out the user
+        logout(request)
+        return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
+
