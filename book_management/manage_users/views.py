@@ -48,6 +48,7 @@ class UserLogin(APIView):
             # Generate JWT token
             refresh = RefreshToken.for_user(user)
             return Response({
+                'message': 'Login successful',
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
             }, status=status.HTTP_200_OK)

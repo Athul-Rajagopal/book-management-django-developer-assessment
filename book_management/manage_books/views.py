@@ -54,7 +54,7 @@ class ReadingListCreate(APIView):
             book_instance = get_object_or_404(Book, title=book_title)
             ReadingListItem.objects.create(reading_list=reading_list, book=book_instance, order=book_data['order'])
 
-        # serializer = ReadingListSerializer(reading_list)
+        
         return Response({'message':'Reading list created successfully'}, status=status.HTTP_201_CREATED)
 
 
