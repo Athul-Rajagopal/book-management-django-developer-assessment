@@ -84,14 +84,13 @@ DATABASES = {
     }
 }
 
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.SessionAuthentication',
-#         # other authentication classes...
-#     ],
-    
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # Other authentication classes if needed
+    ),
+    # Other DRF settings
+}
 
 
 # Password validation

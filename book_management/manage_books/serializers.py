@@ -6,22 +6,28 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'title', 'authors', 'genre', 'publication_date', 'description']
         
+        
+        
 
-class ReadingListItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReadingListItem
-        fields = ['book', 'order']
+
+
+      
 
 class ReadingListSerializer(serializers.ModelSerializer):
-    books = ReadingListItemSerializer(many=True)
+    books = serializers.SerializerMethodField()
 
     class Meta:
         model = ReadingList
         fields = ['id', 'name', 'books']
 
-    def create(self, validated_data):
-        books_data = validated_data.pop('books')
-        reading_list = ReadingList.objects.create(**validated_data)
-        for book_data in books_data:
-            ReadingListItem.objects.create(reading_list=reading_list, **book_data)
-        return reading_list
+    def get_books(self, obj):
+        # Retrieve the books and their orders for the current reading list
+        reading_list_items = ReadingListItem.objects.filter(reading_list=obj)
+        # Serialize each book along with its order
+        return [{'id': item.book.id,
+                 'title': item.book.title,
+                 'authors': item.book.authors,
+                 'genre': item.book.genre,
+                 'publication_date': item.book.publication_date,
+                 'description': item.book.description,
+                 'order': item.order} for item in reading_list_items]
