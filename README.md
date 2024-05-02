@@ -29,16 +29,24 @@ Utilized JWT token authentication and authorization for managing user sessions.
 2. Navigate to the project directory:
 cd <project-directory>
 
-3. Install the required dependencies:
+3. Create a new virtual environment:
+```python -m venv <your env name>```
+
+5. Activate the env by navigating to :
+``` cd <your env name>/Scripts```
+```activate```
+
+6. Install the required dependencies:
 ```pip install -r requirements.txt```
 
-4. Apply migrations:
+7. Naviget back to project root folder and apply migrations:
 ```python manage.py makemigration```
 ```python manage.py migrate```
 
-5. Run the development server:
+8. Run the development server:
 ```python manage.py runserver```
 
+9. Access the APIs using a front end framworks or by tools like Postman
 
 # API Documentation
 
