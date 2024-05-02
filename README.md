@@ -24,7 +24,7 @@ Utilized JWT token authentication and authorization for managing user sessions.
 ## Installation
 
 1. Clone the repository to your local machine:
-git clone <repository-url>
+git clone https://github.com/Athul-Rajagopal/book-management-django-developer-assessment.git
 
 2. Navigate to the project directory:
 cd <project-directory>
